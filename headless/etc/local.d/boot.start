@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+#
+# This should run once at boot (most likely at sysinit) before any other services start.
+# This sets up the default user and the base system configuration.
+
+mkdir -p /config
+
+# see image.sh
+mount -o ro /dev/disk/by-label/HRCONFBD /config
+
+for service in dnsmasq hostapd nftables networking sshd ddclient
+do
+    rc-update add "${service}" boot
+done
+
+for service in admin-ui
+do
+    rc-update add "${service}" default
+done
+
+# Create an admin user with sudo and ssh access.
+addgroup sudo
+addgroup ssh
+adduser -D admin
+adduser admin sudo
+adduser admin ssh
+
+# Set a random password for the admin user.
+(
+    pw="$(head -c 16 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9')"
+    echo -e "${pw}\n${pw}" | passwd admin
+)
+
+# Lock out the root user's account, which prevents logging in as the root user.
+passwd -l root
+
+# Run this once on boot to evaluate service template files.
+configure.sh

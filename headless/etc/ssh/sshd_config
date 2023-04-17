@@ -1,0 +1,10 @@
+PermitRootLogin                 no
+AuthorizedKeysFile              .ssh/authorized_keys
+PasswordAuthentication          no
+ChallengeResponseAuthentication no
+AllowGroups                     ssh
+Subsystem                       sftp /usr/lib/ssh/sftp-server
+
+match User admin
+    # The admin user has special static pre-installed keys here.
+    AuthorizedKeysFile /config/admin_ssh_key

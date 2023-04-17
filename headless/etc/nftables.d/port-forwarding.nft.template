@@ -1,0 +1,9 @@
+#!/sbin/nft -f
+
+table inet filter {
+    chain prerouting {
+        {{ range .PortForwarding }}
+        iifname {{$.WANInterface}} tcp dport {{.SourcePort}} dnat ip to {{.DestinationAddress}}:{{.DestinationPort}}
+        {{ end }}
+    }
+}

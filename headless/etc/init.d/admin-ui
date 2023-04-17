@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+
+description="admin-ui"
+name="admin-ui"
+command="/usr/local/bin/admin-ui"
+command_background="yes"
+pidfile="/var/run/admin-ui.pid"
+
+start_pre() {
+    configure -t /etc/home-router/home-router.conf.template -o /etc/home-router/home-router.conf
+}
+
+depend() {
+    need networking
+}

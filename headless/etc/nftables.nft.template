@@ -1,0 +1,66 @@
+#!/sbin/nft -f
+
+define DEV_PRIVATE = br0
+define DEV_WORLD = {{.WANInterface}}
+define NET_PRIVATE = {{.DHCP.InternalCIDR}}
+
+table inet filter {
+    chain inbound_world {
+        # allow SSH connections from some well-known internet host
+        # ip saddr <some trusted ip address> tcp dport ssh accept
+    }
+
+    chain inbound_private {
+        # accepting ping (icmp-echo-request) for diagnostic purposes.
+        icmp type echo-request limit rate 5/second accept
+
+        # allow HTTP, DHCP, DNS and SSH from the private network
+        ip protocol . th dport vmap { tcp . 80 : accept, tcp . 22 : accept, udp . 53 : accept, tcp . 53 : accept, udp . 67 : accept }
+    }
+
+    chain inbound {
+        # By default, drop all traffic unless it meets a filter criteria specified by the rules that follow below.
+        type filter hook input priority 0; policy drop;
+
+        # Allow traffic from established and related packets, drop invalid
+        ct state vmap { established : accept, related : accept, invalid : drop }
+
+        # allow loopback traffic, anything else jump to chain for further evaluation
+        iifname vmap { lo : accept, $DEV_WORLD : jump inbound_world, $DEV_PRIVATE : jump inbound_private }
+
+        # the rest is dropped by the above policy
+    }
+
+    chain forward {
+        type filter hook forward priority 0; policy drop;
+
+        # Allow traffic from established and related packets, drop invalid
+        ct state vmap { established : accept, related : accept, invalid : drop }
+
+        # Allow dnat
+        ct status dnat accept
+
+        # connections from the internal net to the internet or to other
+        # internal nets are allowed
+        iifname $DEV_PRIVATE accept
+
+        # the rest is dropped by the above policy
+    }
+
+    chain prerouting {
+        type nat hook prerouting priority -100; policy accept;
+    }
+
+    chain postrouting {
+        type nat hook postrouting priority 100; policy accept;
+
+        # masquerade private IP addresses
+        ip saddr $NET_PRIVATE oifname $DEV_WORLD masquerade
+    }
+}
+
+# The state of stateful objects saved on the nftables service stop.
+include "/var/lib/nftables/*.nft"
+
+# Rules
+include "/etc/nftables.d/*.nft"

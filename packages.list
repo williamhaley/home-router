@@ -1,0 +1,10 @@
+nano vim rsync
+bridge
+curl
+hostapd hostapd-openrc
+dnsmasq dnsmasq-openrc
+nftables nftables-openrc
+ddclient ddclient-openrc
+openssh openssh-server openssh-server-common-openrc
+sudo
+python3

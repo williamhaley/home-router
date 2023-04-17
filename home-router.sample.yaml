@@ -1,0 +1,33 @@
+router_ip: 10.0.0.1
+subnet_mask: 255.255.255.0
+
+wan_interface: eth0
+wlan_interface: wlan0
+lan_interface: eth1
+
+port_forwarding:
+  - source_port: 80
+    destination_address: 10.0.0.150
+    destination_port: 80
+  - source_port: 443
+    destination_address: 10.0.0.150
+    destination_port: 443
+
+dhcp:
+  range: 10.0.0.2,10.0.0.254
+  internal_cidr: 10.0.0.0/24
+  hosts: |
+    my-server,10.0.0.140
+
+dns:
+  upstream_ip: 1.1.1.1
+  hosts: |
+
+access_point:
+  ssid: My WiFi
+  passphrase: an amazing password
+
+ddns:
+  login: mydomain.com
+  password: my-ddns-password
+  domain: my-host-name
