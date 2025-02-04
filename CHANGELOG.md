@@ -1,6 +1,6 @@
-# Change Log
+# Changelog
 
-Release notes for home-router.
+Release notes and changes for the home-router project.
 
 # 2025-02-04
 
@@ -45,4 +45,4 @@ Most recently, thank you to the authors and contributors who granted me insight 
 * https://wiki.gentoo.org/wiki//etc/local.d
 * https://irclogs.alpinelinux.org/%23alpine-linux-2022-08.log
 
-This project is not intended for use by any audience in any reliable or meaningful way. These works are intended as educational material only, but perhaps my learnings, mistakes, and the insights I've gleaned can help guide others.
+This project is not intended for use by any audience in any reliable or meaningful way. This work is intended as educational material only, but perhaps my learnings, mistakes, and the insights I've gleaned can help guide others.

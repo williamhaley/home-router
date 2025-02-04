@@ -13,9 +13,6 @@ fi
 sudo umount "${1}1" || true
 sudo umount "${1}2" || true
 
-# From an SD card imaged using a stock Alpine image
-# /dev/sdb1  *        0 195551  195552 95.5M  6 FAT16
-
 sudo fdisk "${1}" << EOF
 o
 n
@@ -37,13 +34,12 @@ b
 w
 EOF
 
-#sudo mkfs.vfat -F 32 "${1}1"
 sudo umount "${1}1" || true
 sudo mkdosfs -F 16 "${1}1"
 sudo umount "${1}1" || true
 
 sudo umount "${1}2" || true
-# see configuration.sh
+# see boot.start
 sudo mkfs.vfat -F 32 -n HRCONFBD "${1}2"
 sudo umount "${1}2" || true
 
@@ -60,9 +56,6 @@ sudo mount "${1}1" "${boot}"
 sudo mount "${1}2" "${config}"
 
 sudo tar -xz --no-same-owner --no-same-permissions --file="${script_dir}/alpine-rpi-3.21.2-aarch64.tar.gz" --directory="${boot}"
-
-# https://github.com/macmpi/alpine-linux-headless-bootstrap/
-# sudo rsync -vr "${files_root}/" "${boot}/"
 
 mkdir -p "${scratch}/usr/local/bin"
 GOOS=linux GOARCH=arm64 go build -o "${scratch}/usr/local/bin/configure" "${script_dir}/cmd/cli/configure.go"

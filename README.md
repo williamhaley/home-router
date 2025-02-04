@@ -10,7 +10,7 @@ These steps assume a Raspberry Pi 4 or 5 with its default network hardware (`eth
 
 A wired USB ethernet adapter should also be connected to the Pi and may serve as a local LAN interface, to which a wired switch could potentially be connected.
 
-Alpine's [apk](https://archlinux.org/packages/extra/x86_64/apk-tools/) tools should be installed on whatever machine is used to run `./fetch-packages.sh` below. The Docker alpine image can be used to run `fetch-packages.sh` instead if `apk` is not available.
+A machine with at least `apk`, `fdisk`, `openssl`, `openssh`, and typical Linux tooling is required to run the steps below. Alpine's [apk](https://archlinux.org/packages/extra/x86_64/apk-tools/) tools are needed to run `./fetch-packages.sh` below. The [official Docker Alpine image](https://hub.docker.com/_/alpine/) can be used to run `fetch-packages.sh` instead if `apk` is not natively available.
 
 ## Set Up
 
@@ -65,13 +65,13 @@ http://10.0.0.1
 
 ## Audit
 
-Open ports can be scanned from within, or outside of, the router's LAN. Using a pre-existing LAN to discretely test the eth0 (WAN) interface of the router could uncover potential security holes in the firewall.
+Open ports can be scanned from within, or outside of, the router's LAN. Using a pre-existing LAN to discretely test the `eth0` (WAN) interface of the router could uncover potential security holes in the firewall.
 
 ```
 sudo nmap --min-rate=5000 -sT -p- 10.0.0.1
 sudo nmap --min-rate=5000 -sU -p- 10.0.0.1
 ```
 
-# [Change Log](CHANGELOG.md)
+# [Changelog](CHANGELOG.md)
 
 # [License](LICENSE)
