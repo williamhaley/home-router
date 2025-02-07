@@ -2,6 +2,17 @@
 
 Release notes and changes for the home-router project.
 
+# 2025-02-07
+
+A bug's become a greater nuisance. Port-forwarding, as it's often referred to on a consumer home router, is working. External requests are routed properly. However, internal requests to public DNS names (like `my-host.my-domain.net`) that resolve to a resource in the LAN are timing out. It seems related to my `prerouting` and `postrouting` rules in `port-forwarding.nft.template` for `nftables`. I want requests for resources within the LAN to resolve just like they would for external requests from the Internet.
+
+I hadn't heard this term before, but a few articles I read referred to this issue in relation to "Hairpin NAT". That plus a `fib` rule in `nftables` allowed me to route traffic properly whether it's from an internal or external source.
+
+* https://serverfault.com/a/1144851/373603
+* https://www.reddit.com/r/linuxquestions/comments/sb86tk/cant_get_dnat_working_with_nftables_when_coming/
+* https://serverfault.com/questions/205040/accessing-the-dnatted-webserver-from-inside-the-lan
+* https://www.monotux.tech/posts/2024/04/hairpin-nat-nftables/
+
 # 2025-02-04
 
 This is something I've tinkered with since maybe 2010-ish, but formalized in early 2025. I thought back to my computer science courses and the various pieces of technology that we typically sum up as a "router" today.
