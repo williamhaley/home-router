@@ -2,6 +2,12 @@
 
 Release notes and changes for the home-router project.
 
+# 2025-04-10
+
+Over the past couple months I worked on and off to try and use Debian (with Raspberry Pi's firmware) as the base image for this project. Unfortunately, I found that process to be cumbersome and unreliable. I got a working pipeline and image, but with kernel panics, slower speed, and much more work required. I'm sure those issues could be resolved over time, but it was enough of a time sink that I am going to abandon it completely.
+
+Instead, these changes pull in some maintainability best practices learned from the failed Debian refactor.
+
 # 2025-02-07
 
 A bug's become a greater nuisance. Port-forwarding, as it's often referred to on a consumer home router, is working. External requests are routed properly. However, internal requests to public DNS names (like `my-host.my-domain.net`) that resolve to a resource in the LAN are timing out. It seems related to my `prerouting` and `postrouting` rules in `port-forwarding.nft.template` for `nftables`. I want requests for resources within the LAN to resolve just like they would for external requests from the Internet.

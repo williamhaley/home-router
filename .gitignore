@@ -1,3 +1,6 @@
-*.apk
-*.gz
+abuild.rsa
+abuild.rsa.pub
 home-router.yaml
+router
+router.pub
+*.tar

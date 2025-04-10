@@ -12,21 +12,7 @@ A wired USB ethernet adapter should also be connected to the Pi and may serve as
 
 A machine with at least `apk`, `fdisk`, `openssl`, `openssh`, and typical Linux tooling is required to run the steps below. Alpine's [apk](https://archlinux.org/packages/extra/x86_64/apk-tools/) tools are needed to run `./fetch-packages.sh` below. The [official Docker Alpine image](https://hub.docker.com/_/alpine/) can be used to run `fetch-packages.sh` instead if `apk` is not natively available.
 
-## Set Up
-
-Create SSH keys for the router.
-
-```
-ssh-keygen -f ~/.ssh/router
-```
-
-[Download a Raspberry Pi Alpine Linux image](https://alpinelinux.org/downloads/) to this directory.
-
-Download packages from Alpine to add to the Alpine Raspberry Pi image.
-
-```
-./fetch-packages.sh
-```
+## Build
 
 Set up a config file and customize it as needed.
 
@@ -34,13 +20,13 @@ Set up a config file and customize it as needed.
 cp ./home-router.sample.yaml ./home-router.yaml
 ```
 
-Generate signing keys for the local Alpine repository.
+Generate a custom OS image that we will later use on a Raspberry Pi.
 
 ```
-mkdir ~/.abuild
-openssl genrsa -out ~/.abuild/abuild.rsa 2048
-openssl rsa -in ~/.abuild/abuild.rsa -pubout -out ~/.abuild/abuild.rsa.pub
+./build.sh
 ```
+
+## Deploy
 
 Write everything to the SD card that will be used by the Raspberry Pi.
 
