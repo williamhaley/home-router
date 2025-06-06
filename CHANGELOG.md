@@ -2,6 +2,10 @@
 
 Release notes and changes for the home-router project.
 
+# 2025-06-06
+
+Some services were not running at the ideal runlevel. `ddclient`, `sshd`, and `ntpd` were modified.
+
 # 2025-04-10
 
 Over the past couple months I worked on and off to try and use Debian (with Raspberry Pi's firmware) as the base image for this project. Unfortunately, I found that process to be cumbersome and unreliable. I got a working pipeline and image, but with kernel panics, slower speed, and much more work required. I'm sure those issues could be resolved over time, but it was enough of a time sink that I am going to abandon it completely.

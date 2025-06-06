@@ -8,12 +8,12 @@ mkdir -p /config
 # see image.sh
 mount -o ro /dev/disk/by-label/HRCONFBD /config
 
-for service in dnsmasq hostapd nftables networking sshd ddclient
+for service in dnsmasq hostapd nftables networking ntpd
 do
     rc-update add "${service}" boot
 done
 
-for service in admin-ui
+for service in admin-ui ddclient sshd
 do
     rc-update add "${service}" default
 done
